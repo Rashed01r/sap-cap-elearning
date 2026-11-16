@@ -19,7 +19,7 @@
     "requires": {
       "[production]": {
         "db": "hana",
-        "auth": "dummy"
+        "auth": "xsuaa"
       }
     },
     "server": {
