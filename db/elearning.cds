@@ -8,7 +8,7 @@ entity Catagories {
     key id : UUID;
         name : String50;
         description : String(100);
-        Courses : Association to many Courses on Courses.catagory = $self;
+        Courses : Composition of many Courses on Courses.catagory = $self;
 
 }
 
