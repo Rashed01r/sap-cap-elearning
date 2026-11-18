@@ -5,7 +5,7 @@
     "type": "application",
     "i18n": "i18n/i18n.properties",
     "applicationVersion": {
-      "version": "0.0.1"
+      "version": "0.0.3"
     },
     "title": "{{appTitle}}",
     "description": "{{appDescription}}",
@@ -78,7 +78,11 @@
       }
     },
     "resources": {
-      "css": []
+      "css": [
+        {
+          "uri": "css/style.css"
+        }
+      ]
     },
     "routing": {
       "config": {},
@@ -139,6 +143,34 @@
                     "route": "CoursesObjectPage"
                   }
                 }
+              },
+              "content": {
+                "body": {
+                  "sections": {
+                    "DescriptionFacet": {
+                      "useSingleTextAreaFieldAsNotes": true
+                    }
+                  }
+                }
+              },
+              "controlConfiguration": {
+                "Courses/@com.sap.vocabularies.UI.v1.LineItem": {
+                  "tableSettings": {
+                    "type": "ResponsiveTable",
+                    "creationMode": {
+                      "name": "Inline",
+                      "createAtEnd": false
+                    }
+                  },
+                  "columns": {
+                    "CourseActions": {
+                      "header": "Actions",
+                      "template": "elearningapp.ext.CourseActions",
+                      "width": "8rem",
+                      "horizontalAlign": "Center"
+                    }
+                  }
+                }
               }
             }
           }
@@ -152,6 +184,18 @@
               "editableHeaderContent": false,
               "contextPath": "/Catagories/Courses"
             }
+          }
+        }
+      }
+    },
+    "extends": {
+      "extensions": {
+        "sap.ui.controllerExtensions": {
+          "sap.fe.templates.ListReport.ListReportController": {
+            "controllerName": "elearningapp.ext.HideShare"
+          },
+          "sap.fe.templates.ObjectPage.ObjectPageController": {
+            "controllerName": "elearningapp.ext.HideShare"
           }
         }
       }

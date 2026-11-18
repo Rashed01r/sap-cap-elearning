@@ -20,6 +20,16 @@ annotate service.Catagories with @(
             },
             {
                 $Type : 'UI.DataField',
+                Label : 'Status',
+                Value : status,
+            },
+        ],
+    },
+    UI.FieldGroup #Description : {
+        $Type : 'UI.FieldGroupType',
+        Data : [
+            {
+                $Type : 'UI.DataField',
                 Label : 'Description',
                 Value : description,
             },
@@ -31,6 +41,12 @@ annotate service.Catagories with @(
             ID : 'GeneratedFacet1',
             Label : 'General Information',
             Target : '@UI.FieldGroup#GeneratedGroup',
+        },
+        {
+            $Type : 'UI.ReferenceFacet',
+            ID : 'DescriptionFacet',
+            Label : 'Description',
+            Target : '@UI.FieldGroup#Description',
         },
         {
             $Type : 'UI.ReferenceFacet',
@@ -50,15 +66,40 @@ annotate service.Catagories with @(
             $Type : 'UI.DataField',
             Label : 'Description',
             Value : description,
-            @HTML5.CssDefaults : { width : '60rem' },
+            @HTML5.CssDefaults : { width : '50rem' },
+        },
+        {
+            $Type : 'UI.DataField',
+            Label : 'Status',
+            Value : status,
+            @HTML5.CssDefaults : { width : '8rem' },
         },
     ],
+    UI.SelectionFields : [ status ],
+
+    // Hide Fiori's built-in "Editing Status" filter (replaced by our Status filter)
+    Capabilities.NavigationRestrictions : {
+        RestrictedProperties : [{
+            NavigationProperty : DraftAdministrativeData,
+            FilterRestrictions : { Filterable : false },
+        }],
+    },
 );
 
 annotate service.Catagories with {
     id          @UI.Hidden;
     name        @title : 'Name'        @mandatory;
     description @title : 'Description' @UI.MultiLineText;
+    status      @title : 'Status'      @readonly
+                @Common.ValueListWithFixedValues
+                @Common.ValueList : {
+                    CollectionPath : 'StatusCodes',
+                    Parameters : [{
+                        $Type : 'Common.ValueListParameterInOut',
+                        LocalDataProperty : status,
+                        ValueListProperty : 'code',
+                    }],
+                };
 };
 
 // ---------------------------------------------------------------------------
@@ -113,5 +154,8 @@ annotate service.Courses with {
     catagory    @UI.Hidden;
     course_name @title : 'Course Name' @mandatory;
     price       @title : 'Price';
-    language    @title : 'Language';
+    language    @title : 'Language'
+                @Common.ValueListWithFixedValues
+                @Common.Text : language.name
+                @Common.TextArrangement : #TextOnly;
 };

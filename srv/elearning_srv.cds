@@ -7,4 +7,7 @@ service eLearning {
 
     entity Courses as projection on elearning.Courses;
 
+    @readonly
+    entity StatusCodes as projection on elearning.StatusCodes;
+
 }

@@ -1,0 +1,7 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+    <HBox core:require="{ handler: 'elearningapp/ext/CourseActions' }" justifyContent="Center">
+        <Button icon="sap-icon://edit" type="Transparent" tooltip="Edit course" press="handler.onEdit" />
+        <Button icon="sap-icon://delete" type="Transparent" tooltip="Delete course"
+                press="handler.onDelete" enabled="{ui>/isEditable}" />
+    </HBox>
+</core:FragmentDefinition>

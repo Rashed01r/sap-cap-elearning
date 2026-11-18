@@ -8,8 +8,14 @@ entity Catagories {
     key id : UUID;
         name : String50;
         description : String(100);
+        status : String(10) default 'Created'; // Created | Updated | Draft (set in srv/elearning_srv.js)
         Courses : Composition of many Courses on Courses.catagory = $self;
 
+}
+
+// Code list for the Status filter dropdown
+entity StatusCodes {
+    key code : String(10);
 }
 
 
