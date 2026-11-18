@@ -26,11 +26,16 @@
     "requires": {
       "[production]": {
         "db": "hana",
-        "auth": "xsuaa"
+        "auth": "dummy"
       }
     },
     "server": {
       "index": true
+    },
+    "fiori": {
+      "[production]": {
+        "preview": true
+      }
     }
   },
   "workspaces": [
