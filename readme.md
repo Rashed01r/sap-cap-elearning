@@ -42,14 +42,3 @@ Open the app from **BTP Cockpit → HTML5 Applications → elearningapp**.
 On a **trial** account, SAP stops apps and the HANA Cloud database every night. Start them again with `cf start e_learning-srv` and from HANA Cloud Central.
 
 To remove everything from BTP: `npm run undeploy`.
-
-## Security note
-
-For learning purposes, **login is turned off**:
-
-- `app/elearning_app/xs-app.json`: routes use `"authenticationType": "none"`
-- `package.json`: `cds.requires.[production].auth` is `"dummy"`
-
-Anyone with the app URL can read, change and delete data. Before using real data, switch the routes back to `"xsuaa"` and the auth back to `"xsuaa"`.
-
-Never commit credentials. `.env`, `default-env.json` and `.cdsrc-private.json` are listed in `.gitignore` because they contain service keys created by `cds bind` or a deployment.
