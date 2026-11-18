@@ -4,7 +4,12 @@ import cds from '@sap/cds';
 const MAX_CATEGORIES = 10;
 const MAX_COURSES_PER_CATEGORY = 3;
 
+// Read-only demo mode: set READ_ONLY=true on BTP (see mta.yaml).
+// When running locally (npm run admin) it is not set, so changes are allowed.
+const READ_ONLY = process.env.READ_ONLY === 'true';
+
 /**
+ * - Read-only demo mode (READ_ONLY)
  * - Maintains Catagories.status:
  *     'Draft'   while a category is being created or edited
  *     'Created' when a new category is saved for the first time
@@ -13,7 +18,19 @@ const MAX_COURSES_PER_CATEGORY = 3;
  */
 export default class eLearning extends cds.ApplicationService {
     init() {
-        const { Catagories, Courses } = this.entities;
+        const { Catagories, Courses, AppSettings } = this.entities;
+
+        // --- Settings the UI reads to hide Create / Edit / Delete buttons ---
+        this.on('READ', AppSettings, () => ({ readOnly: READ_ONLY }));
+
+        // --- Read-only demo: block every change (create, edit, save, delete, ...) ---
+        if (READ_ONLY) {
+            this.before('*', req => {
+                if (req.event !== 'READ') {
+                    return req.reject(403, 'This is a read-only demo. Changes are disabled.');
+                }
+            });
+        }
 
         const countCategories = async () =>
             (await SELECT.one.from(Catagories).columns('count(*) as n')).n;

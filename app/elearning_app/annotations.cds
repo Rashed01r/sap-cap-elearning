@@ -159,3 +159,12 @@ annotate service.Courses with {
                 @Common.Text : language.name
                 @Common.TextArrangement : #TextOnly;
 };
+
+// ---------------------------------------------------------------------------
+// Read-only demo: hide Create / Edit / Delete when AppSettings.readOnly = true
+// ---------------------------------------------------------------------------
+annotate service.Catagories with @(
+    UI.CreateHidden : { $edmJson : { $Path : '/eLearning.EntityContainer/AppSettings/readOnly' } },
+    UI.UpdateHidden : { $edmJson : { $Path : '/eLearning.EntityContainer/AppSettings/readOnly' } },
+    UI.DeleteHidden : { $edmJson : { $Path : '/eLearning.EntityContainer/AppSettings/readOnly' } },
+);

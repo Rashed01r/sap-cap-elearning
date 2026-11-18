@@ -1,44 +1,54 @@
 # E-Learning App
 
-A small SAP CAP (Node.js) + Fiori Elements app for managing course **categories** and their **courses**, built as a learning project for SAP BTP.
+A learning project built with **SAP CAP (Node.js)** and **SAP Fiori Elements**.
+Manage course **categories** and the **courses** inside each one.
 
 ## Features
 
-- List of categories with a **Status** filter (Created / Updated / Draft)
-- Create, edit and delete categories (Fiori draft: Edit → Save / Discard)
-- Courses table inside each category: add rows inline, edit or delete with the action icons
-- Language picked from a dropdown
+- Create, edit and delete categories and courses
+- Status filter: Created / Updated / Draft
+- Limits: max 10 categories, max 3 courses per category
+- Rate limiting against spam
 
-## Project structure
-
-| Folder / file | Purpose |
-|---|---|
-| `db/` | Data model (`elearning.cds`) and code lists (`data/`) |
-| `srv/` | OData service (`elearning_srv.cds`) and status logic (`elearning_srv.js`) |
-| `app/elearning_app/` | Fiori Elements UI: annotations, manifest, extensions in `webapp/ext/` |
-| `test/data/` | Sample data, loaded only when running locally |
-| `mta.yaml` | Deployment descriptor for SAP BTP Cloud Foundry |
-| `xs-security.json` | XSUAA security configuration |
-
-## Run locally
+## Run it on your computer
 
 ```bash
 npm install
 cds watch
 ```
 
-Open <http://localhost:4004/elearningapp/index.html>. Locally the app uses an in-memory SQLite database with the sample data from `test/data/`.
+Then open <http://localhost:4004/elearningapp/index.html>.
 
-## Deploy to SAP BTP (Cloud Foundry)
+### Where is the data saved?
+
+Your data is saved in a small database file called **`db.sqlite`** in the project folder.
+
+- **First start:** the file is created automatically and filled with demo data.
+- **Your changes are kept**, even after you stop and restart the app.
+- **Start over** with fresh demo data at any time:
+
+  ```bash
+  npm run reset-data
+  ```
+
+`db.sqlite` stays on your computer only. It is never uploaded to GitHub.
+
+## Deploy to SAP BTP
 
 ```bash
-cf login -a https://api.cf.<region>.hana.ondemand.com
+cf login
 npm run build
 npm run deploy
 ```
 
-Open the app from **BTP Cockpit → HTML5 Applications → elearningapp**.
+The deployed app is a **read-only demo**: visitors can browse, but not change anything.
+It uses SAP HANA Cloud instead of SQLite.
 
-On a **trial** account, SAP stops apps and the HANA Cloud database every night. Start them again with `cf start e_learning-srv` and from HANA Cloud Central.
+## Project structure
 
-To remove everything from BTP: `npm run undeploy`.
+| Folder | What's inside |
+|---|---|
+| `db/` | Data model |
+| `srv/` | Service and business rules |
+| `app/` | Fiori UI |
+| `test/data/` | Demo data |

@@ -20,7 +20,9 @@
     "watch-elearning_app": "cds watch --open elearningapp/index.html?sap-ui-xx-viewCache=false --livereload false",
     "undeploy": "cf undeploy e_learning --delete-services --delete-service-keys --delete-service-brokers",
     "build": "rimraf resources mta_archives && mbt build --mtar archive",
-    "deploy": "cf deploy mta_archives/archive.mtar --retries 1"
+    "deploy": "cf deploy mta_archives/archive.mtar --retries 1",
+    "admin": "CDS_REQUIRES_AUTH_KIND=mocked cds watch --profile hybrid --open elearningapp/index.html",
+    "reset-data": "cds deploy --to sqlite:db.sqlite"
   },
   "private": true,
   "cds": {
@@ -28,6 +30,14 @@
       "[production]": {
         "db": "hana",
         "auth": "dummy"
+      },
+      "[development]": {
+        "db": {
+          "kind": "sqlite",
+          "credentials": {
+            "url": "db.sqlite"
+          }
+        }
       }
     },
     "server": {

@@ -13,6 +13,8 @@ modules:
   - name: srv-api
     properties:
       srv-url: ${default-url}
+  properties:
+    READ_ONLY: true # public demo is read-only; edit data locally with `npm run admin`
   parameters:
     buildpack: nodejs_buildpack
     instances: 1

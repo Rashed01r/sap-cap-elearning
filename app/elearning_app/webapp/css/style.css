@@ -1,4 +1,4 @@
-/* Hide the Fiori Elements "Share" button (class added by ext/HideShare.controller.js) */
+/* Hide the Fiori Elements "Share" button (class added by ext/PageExtension.controller.js) */
 .elearningHideShare {
     display: none !important;
 }

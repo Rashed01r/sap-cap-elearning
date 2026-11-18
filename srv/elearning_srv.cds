@@ -10,4 +10,13 @@ service eLearning {
     @readonly
     entity StatusCodes as projection on elearning.StatusCodes;
 
+    // App-wide settings for the UI (one record, no table).
+    // readOnly = true on BTP (set in mta.yaml), false when run locally.
+    @odata.singleton
+    @cds.persistence.skip
+    @readonly
+    entity AppSettings {
+        readOnly : Boolean;
+    }
+
 }

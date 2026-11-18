@@ -23,4 +23,20 @@ cds.on('bootstrap', app => {
     }));
 });
 
+// Local development uses a SQLite file (db.sqlite) so data survives restarts.
+// On the very first start the file has no tables yet: create them and load the
+// demo data from db/data and test/data. Later starts keep the existing data.
+// To start over with fresh demo data, run: npm run reset-data
+cds.on('served', async () => {
+    const db = cds.db;
+    if (db?.options?.kind !== 'sqlite' || db.options.credentials?.url === ':memory:') return;
+    const exists = await db.run(
+        SELECT.one.from('sqlite_master').columns('name').where({ type: 'table', name: 'app_elearning_Catagories' })
+    );
+    if (!exists) {
+        cds.log('db').info('First start: creating tables and loading demo data into', db.options.credentials.url);
+        await cds.deploy('*').to(db);
+    }
+});
+
 export default cds.server;
