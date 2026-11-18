@@ -3,10 +3,11 @@ sap.ui.define([], function () {
 
     // Walk up from the pressed button to its view and return the page controller
     function getController(control) {
-        while (control && !control.isA("sap.ui.core.mvc.View")) {
-            control = control.getParent();
+        var current = control;
+        while (current && !current.isA("sap.ui.core.mvc.View")) {
+            current = current.getParent();
         }
-        return control && control.getController();
+        return current && current.getController();
     }
 
     return {

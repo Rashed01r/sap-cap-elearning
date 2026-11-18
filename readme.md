@@ -1,22 +1,55 @@
-# Getting Started
+# E-Learning App
 
-Welcome to your new CAP project.
+A small SAP CAP (Node.js) + Fiori Elements app for managing course **categories** and their **courses**, built as a learning project for SAP BTP.
 
-It contains these folders and files, following our recommended project layout:
+## Features
 
-File or Folder | Purpose
----------|----------
-`app/` | content for UI frontends goes here
-`db/` | your domain models and data go here
-`srv/` | your service models and code go here
-`readme.md` | this getting started guide
+- List of categories with a **Status** filter (Created / Updated / Draft)
+- Create, edit and delete categories (Fiori draft: Edit → Save / Discard)
+- Courses table inside each category: add rows inline, edit or delete with the action icons
+- Language picked from a dropdown
 
-## Next Steps
+## Project structure
 
-- Open a new terminal and run `cds watch`
-- (in VS Code simply choose _**Terminal** > Run Task > cds watch_)
-- Start with your domain model, in a CDS file in `db/`
+| Folder / file | Purpose |
+|---|---|
+| `db/` | Data model (`elearning.cds`) and code lists (`data/`) |
+| `srv/` | OData service (`elearning_srv.cds`) and status logic (`elearning_srv.js`) |
+| `app/elearning_app/` | Fiori Elements UI: annotations, manifest, extensions in `webapp/ext/` |
+| `test/data/` | Sample data, loaded only when running locally |
+| `mta.yaml` | Deployment descriptor for SAP BTP Cloud Foundry |
+| `xs-security.json` | XSUAA security configuration |
 
-## Learn More
+## Run locally
 
-Learn more at <https://cap.cloud.sap>.
+```bash
+npm install
+cds watch
+```
+
+Open <http://localhost:4004/elearningapp/index.html>. Locally the app uses an in-memory SQLite database with the sample data from `test/data/`.
+
+## Deploy to SAP BTP (Cloud Foundry)
+
+```bash
+cf login -a https://api.cf.<region>.hana.ondemand.com
+npm run build
+npm run deploy
+```
+
+Open the app from **BTP Cockpit → HTML5 Applications → elearningapp**.
+
+On a **trial** account, SAP stops apps and the HANA Cloud database every night. Start them again with `cf start e_learning-srv` and from HANA Cloud Central.
+
+To remove everything from BTP: `npm run undeploy`.
+
+## Security note
+
+For learning purposes, **login is turned off**:
+
+- `app/elearning_app/xs-app.json`: routes use `"authenticationType": "none"`
+- `package.json`: `cds.requires.[production].auth` is `"dummy"`
+
+Anyone with the app URL can read, change and delete data. Before using real data, switch the routes back to `"xsuaa"` and the auth back to `"xsuaa"`.
+
+Never commit credentials. `.env`, `default-env.json` and `.cdsrc-private.json` are listed in `.gitignore` because they contain service keys created by `cds bind` or a deployment.

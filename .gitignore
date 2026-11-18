@@ -1,23 +1,30 @@
+# Dependencies
 node_modules/
+
+# Build output (recreated by `npm run build`)
+gen/
+app/*/dist/
+resources/
+mta_archives/
+*.mtar
+*_mta_build_tmp
 target/
 _out/
-gen/
-.cds/
 
-.cdsrc-private.json
-default-*.json
+# CAP / generator local files
+.cds/
+.gen/
+@cds-models
 *.sqlite
 
-# MTA
-mta_archives/
-*_mta_build_tmp
-*.mtar
+# Secrets and credentials - never commit these
+.env
+*.env
+default-env.json
+default-*.json
+.cdsrc-private.json
+*.pem
+*.key
 
-# Other
+# OS / editor
 .DS_Store
-
-# @cap-js/cds-typer
-@cds-models
-
-# auto generated wildcard
-db/.env
